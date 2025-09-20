@@ -2,35 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rays Flags | Grow a Garden</title>
-  <style>
-    body {margin:0;font-family:sans-serif;background:#111;color:white;}
-    nav {background:#222;padding:15px;text-align:center;}
-    nav a {color:white;margin:0 15px;text-decoration:none;font-weight:bold;}
-    nav a:hover {color:#0ff;}
-    .grid {display:grid;place-items:center;padding:40px;}
-    .card {background:#1c1c1c;border-radius:12px;padding:40px;text-align:center;max-width:300px;}
-    .card button {background:#0ff;border:none;padding:10px 16px;border-radius:6px;font-weight:bold;cursor:pointer;}
-    .card button:hover {background:#09c;}
-  </style>
-  <script>
-    function buy(item){
-      const msg=`Hi Ray (@rattyray1), I’d like to buy: ${item}`;
-      navigator.clipboard.writeText(msg);
-      alert("✅ Order copied! Opening Discord invite. Paste it in Ray's DM.");
-      window.open("https://discord.gg/W8w94pUtgt","_blank");
-    }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grow a Garden</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="fastflags.html">Fast Flags Shop</a>
-    <a href="brainrot.html">Brainrot Shop</a>
-    <a href="garden.html">Grow a Garden</a>
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="shop.html">⚡ Fast Flags Shop</a></li>
+      <li><a href="brainrot.html">🧠 Steal a Brainrot</a></li>
+      <li><a href="garden.html">🌱 Grow a Garden</a></li>
+    </ul>
   </nav>
-  <div class="grid">
-    <div class="card"><h2>Griffin</h2><button onclick="buy('Griffin')">Buy Now</button></div>
-  </div>
+
+  <section>
+    <h1>🌱 Grow a Garden Shop</h1>
+    <div class="product"><h2>Griffin</h2></div>
+  </section>
 </body>
 </html>
