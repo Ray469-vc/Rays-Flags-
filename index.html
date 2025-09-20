@@ -13,11 +13,11 @@ header{padding:30px;text-align:center;}
 .wrap{max-width:1200px;margin:20px auto;padding:20px;}
 .category-toggle{cursor:pointer;user-select:none;margin-top:30px;font-size:22px;color:var(--accent);display:flex;justify-content:space-between;align-items:center;padding:5px 0;}
 .collapsible{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-top:10px;}
-.card{background:linear-gradient(135deg,#0b1220,#0f172a);padding:15px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.6);transition:transform 0.2s,box-shadow 0.2s;text-align:center;}
+.card{background:linear-gradient(135deg,#0b1220,#0f172a);padding:15px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.6);transition:transform 0.3s,box-shadow 0.3s;text-align:center;}
 .card:hover{transform:translateY(-5px);box-shadow:0 12px 25px rgba(0,0,0,0.8);}
-.flag{height:100px;border-radius:8px;background:#071022;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:white;margin-bottom:10px;}
+.flag{height:100px;border-radius:8px;background:linear-gradient(45deg,#0ea5a4,#14b8a6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:white;margin-bottom:10px;}
 .name{margin:10px 0;font-size:16px;}
-button{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:#022;cursor:pointer;transition:transform 0.1s;margin-top:5px;}
+button{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:#022;cursor:pointer;transition:transform 0.1s;margin-top:5px;width:100%;}
 button:hover{transform:scale(1.05);}
 .topbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:20px;}
 .cart-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:10px;color:var(--muted);}
@@ -33,7 +33,7 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
 <body>
 <header>
   <div class="brand">Rays Flags — Fast Roblox Flags</div>
-  <div class="subtitle">Buy flags quickly. Prices discussed in Discord DM. Trusted seller.</div>
+  <div class="subtitle">Fast flags for Roblox. Prices discussed in Discord DM. Trusted seller.</div>
 </header>
 <main class="wrap">
   <div class="topbar">
@@ -57,7 +57,6 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
   <div class="collapsible" id="miscFlags"></div>
 </main>
 
-<!-- Cart Modal -->
 <div id="cartModal" class="modal">
   <h4>Your Cart</h4>
   <div id="cartItems"></div>
@@ -73,27 +72,27 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
 document.addEventListener('DOMContentLoaded', () => {
   const CATEGORIES = {
     reachFlags:[
-      {id:1,name:'Reach Flag Basic',desc:'Standard reach'},
-      {id:2,name:'Reach Flag Advanced',desc:'Improved reach'},
-      {id:3,name:'Reach Flag Premium',desc:'Maximum reach'}
+      {id:1,name:'Reach Flag Basic',desc:'Standard fast flag'},
+      {id:2,name:'Reach Flag Advanced',desc:'Improved fast flag'},
+      {id:3,name:'Reach Flag Premium',desc:'Maximum fast flag'}
     ],
     delayFlags:[
-      {id:4,name:'Delay Flag Basic',desc:'Standard delay'},
-      {id:5,name:'Delay Flag Advanced',desc:'Reduced delay'},
-      {id:6,name:'Delay Flag Premium',desc:'Minimal delay'}
+      {id:4,name:'Delay Flag Basic',desc:'Standard fast flag'},
+      {id:5,name:'Delay Flag Advanced',desc:'Improved fast flag'},
+      {id:6,name:'Delay Flag Premium',desc:'Maximum fast flag'}
     ],
     specialFlags:[
-      {id:7,name:'CokeTF Flag',desc:'Special limited time'}
+      {id:7,name:'CokeTF Flag',desc:'Special limited time fast flag'}
     ],
     pingFlags:[
-      {id:8,name:'Ping Flag Basic',desc:'Standard ping'},
-      {id:9,name:'Ping Flag Advanced',desc:'Improved ping'},
-      {id:10,name:'Ping Flag Premium',desc:'Best ping'}
+      {id:8,name:'Ping Flag Basic',desc:'Standard fast flag'},
+      {id:9,name:'Ping Flag Advanced',desc:'Improved fast flag'},
+      {id:10,name:'Ping Flag Premium',desc:'Maximum fast flag'}
     ],
     miscFlags:[
-      {id:11,name:'Misc Basic',desc:'Basic misc tools'},
-      {id:12,name:'Misc Advanced',desc:'Advanced misc tools'},
-      {id:13,name:'Misc Premium',desc:'Premium misc tools'}
+      {id:11,name:'Misc Basic',desc:'Basic fast flag'},
+      {id:12,name:'Misc Advanced',desc:'Advanced fast flag'},
+      {id:13,name:'Misc Premium',desc:'Premium fast flag'}
     ]
   }
 
@@ -135,15 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const container=document.getElementById(catId)
     CATEGORIES[catId].forEach(item=>{
       const div=document.createElement('div'); div.className='card'
-      div.innerHTML=`<div class="flag">Flag</div>
+      div.innerHTML=`<div class="flag"></div>
         <div class="name">${item.name}</div>
-        <div class="small">${item.desc}</div>
-        <button onclick="addToCart(${item.id},'${item.name}')">Add</button>`
+        <div class="small">${item.desc}</div>`
+      const btn=document.createElement('button'); btn.textContent='Add'
+      btn.addEventListener('click',()=>addToCart(item.id,item.name))
+      div.appendChild(btn)
       container.appendChild(div)
     })
   })
 
-  // Collapsible categories
   document.querySelectorAll('.category-toggle').forEach(header=>{
     header.addEventListener('click', ()=>{
       const grid = header.nextElementSibling
