@@ -1,26 +1,81 @@
-<section style="margin-top:18px">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rays Flags — Fast Roblox Flags</title>
+<style>
+:root{--accent:#0ea5a4;--bg:#0f172a;--card:#0b1220;--muted:#94a3b8}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#001219 0%, #071024 100%);color:#e6eef8}
+header{padding:24px;text-align:center}
+.brand{font-weight:700;font-size:clamp(20px,4vw,32px)}
+.subtitle{color:var(--muted);margin-top:6px;font-size:14px}
+.wrap{max-width:1100px;margin:26px auto;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+.flag{height:140px;border-radius:8px;background:#071022;display:flex;align-items:center;justify-content:center;font-weight:700}
+.name{margin:10px 0;font-size:16px}
+.price{color:var(--accent);font-weight:700}
+button{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:#022;cursor:pointer}
+.topbar{display:flex;gap:10px;justify-content:space-between;align-items:center}
+.cart-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:10px;color:var(--muted)}
+.cart-count{background:#ef4444;color:white;padding:2px 6px;border-radius:999px;margin-left:8px;font-weight:700}
+footer{padding:18px;text-align:center;color:var(--muted);font-size:13px}
+.modal{position:fixed;right:18px;bottom:18px;width:320px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.6);display:none;z-index:9999}
+.modal h4{margin:0 0 8px}
+.cart-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
+.small{font-size:13px;color:var(--muted)}
+@media(max-width:520px){.modal{right:8px;left:8px;width:auto}}
+h2{margin-top:24px;color:var(--accent);font-size:20px;border-bottom:1px solid rgba(14,165,164,0.2);padding-bottom:4px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Rays Flags <span class="small">— Fast Roblox Flags</span></div>
+  <div class="subtitle">Buy flags quickly. Prices discussed in Discord DM. Trusted seller.</div>
+</header>
 
-  <!-- 1️⃣ Reach Flags -->
+<main class="wrap">
+  <div class="topbar">
+    <div class="small">Custom orders via Discord: <strong>@rattyray1</strong></div>
+    <div>
+      <button class="cart-btn" id="openCart">Cart <span id="count" class="cart-count">0</span></button>
+    </div>
+  </div>
+
+  <!-- Categories -->
   <h2>Reach Flags</h2>
   <div class="grid" id="reachFlags"></div>
 
-  <!-- 2️⃣ Delay Flags -->
   <h2>Delay Flags</h2>
   <div class="grid" id="delayFlags"></div>
 
-  <!-- 3️⃣ Special / Limited Time Flags -->
   <h2>Special / Limited Time Flags</h2>
   <div class="grid" id="specialFlags"></div>
 
-  <!-- 4️⃣ Ping Flags -->
   <h2>Ping Flags</h2>
   <div class="grid" id="pingFlags"></div>
 
-  <!-- 5️⃣ Miscellaneous -->
   <h2>Miscellaneous</h2>
   <div class="grid" id="miscFlags"></div>
+</main>
 
-</section>
+<div id="cartModal" class="modal">
+  <h4>Your cart</h4>
+  <div id="cartItems"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+    <div class="small">Total: <strong id="total">Price in DM</strong></div>
+    <div style="display:flex;gap:8px">
+      <button id="checkoutBtn">Checkout</button>
+      <button id="closeCart" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Made with ❤️ by Ray — Discord: <strong>@rattyray1</strong> | Server: <a href="https://discord.gg/W8w94pUtgt" target="_blank" style="color:var(--accent)">Join here</a></div>
+</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,26 +105,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartModal = document.getElementById('cartModal')
   const cartItemsEl = document.getElementById('cartItems')
   const countEl = document.getElementById('count')
-  const totalEl = document.getElementById('total')
 
   function getCart(){ return JSON.parse(localStorage.getItem('rays_cart')||'{}') }
   function saveCart(c){ localStorage.setItem('rays_cart',JSON.stringify(c)); updateCount() }
-  function addToCart(id, name){ 
+  function addToCart(id,name){ 
     const c=getCart(); 
-    c[id] = (c[id]||0)+1; 
+    c[id]=(c[id]||0)+1; 
     saveCart(c); 
     alert(`Added "${name}" to cart. Checkout to DM Ray for price.`)
   }
-  function updateCount(){ 
-    const c=getCart(); 
-    countEl.textContent = Object.values(c).reduce((a,b)=>a+b,0)
-  }
+  function updateCount(){ const c=getCart(); countEl.textContent = Object.values(c).reduce((a,b)=>a+b,0) }
   function renderCart(){
     const c=getCart(); 
     cartItemsEl.innerHTML=''
     Object.keys(c).forEach(id=>{
-      const qty = c[id]
       const p = Object.values(CATEGORIES).flat().find(x=>x.id==id)
+      const qty = c[id]
       const line = document.createElement('div')
       line.className='cart-item'
       line.innerHTML = `<div>${p.name} <div class="small">x${qty}</div></div><div>Price in DM</div>`
@@ -86,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = Object.values(CATEGORIES).flat().find(x=>x.id==id)
       return `${p.name} x${c[id]}`
     }).join('\n')
-
     navigator.clipboard.writeText(`Order:\n${summary}\nDiscord: @rattyray1\nServer: https://discord.gg/W8w94pUtgt`)
     window.open('https://discord.gg/W8w94pUtgt','_blank')
     alert('Order summary copied! Message @rattyray1 on Discord to complete purchase. Server invite opened.')
@@ -95,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     closeCart()
   }
 
-  // Render all categories
   Object.keys(CATEGORIES).forEach(catId=>{
     const container = document.getElementById(catId)
     CATEGORIES[catId].forEach(item=>{
@@ -114,8 +163,4 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   document.getElementById('openCart').addEventListener('click', openCart)
-  document.getElementById('closeCart').addEventListener('click', closeCart)
-  document.getElementById('checkoutBtn').addEventListener('click', checkout)
-  updateCount()
-})
-</script>
+  document.getElementById('closeCart').add
