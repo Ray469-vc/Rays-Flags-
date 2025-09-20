@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rays Flags | Fast Flags</title>
+  <style>
+    body {margin:0;font-family:sans-serif;background:#111;color:white;}
+    nav {background:#222;padding:15px;text-align:center;}
+    nav a {color:white;margin:0 15px;text-decoration:none;font-weight:bold;}
+    nav a:hover {color:#0ff;}
+    .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px;}
+    .card {background:#1c1c1c;border-radius:12px;padding:20px;text-align:center;}
+    .card h2 {margin-bottom:10px;}
+    .card button {
+      background:#0ff;border:none;padding:10px 16px;border-radius:6px;
+      font-weight:bold;cursor:pointer;
+    }
+    .card button:hover {background:#09c;}
+  </style>
+  <script>
+    function buy(item){
+      const msg=`Hi Ray (@rattyray1), I’d like to buy: ${item}`;
+      navigator.clipboard.writeText(msg);
+      alert("✅ Order copied! Opening Discord invite. Paste it in Ray's DM.");
+      window.open("https://discord.gg/W8w94pUtgt","_blank");
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="fastflags.html">Fast Flags Shop</a>
+    <a href="brainrot.html">Brainrot Shop</a>
+    <a href="garden.html">Grow a Garden</a>
+  </nav>
+  <div class="grid">
+    <div class="card"><h2>Reach Flag</h2><p>Basic / Advanced / Premium</p><button onclick="buy('Reach Flag')">Buy Now</button></div>
+    <div class="card"><h2>Delay Flag</h2><p>Basic / Advanced / Premium</p><button onclick="buy('Delay Flag')">Buy Now</button></div>
+    <div class="card"><h2>CokeTF Special</h2><p>Limited (30-50ms)</p><button onclick="buy('CokeTF Special Flag')">Buy Now</button></div>
+    <div class="card"><h2>Ping Flags</h2><p>Basic / Advanced / Premium</p><button onclick="buy('Ping Flag')">Buy Now</button></div>
+    <div class="card"><h2>Miscellaneous</h2><p>Hitbox ESP & More</p><button onclick="buy('Misc Flags')">Buy Now</button></div>
+  </div>
+</body>
+</html>
