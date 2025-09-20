@@ -72,11 +72,29 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const CATEGORIES = {
-    reachFlags:[{id:1,name:'Red Reach Flag',desc:'High reach'},{id:6,name:'Blue Reach Flag',desc:'Extra reach'}],
-    delayFlags:[{id:2,name:'Green Delay Flag',desc:'Reduce delay'}],
-    specialFlags:[{id:3,name:'Coketf 50ms',desc:'Limited'}],
-    pingFlags:[{id:4,name:'Ping Boost Flag',desc:'Improve ping'}],
-    miscFlags:[{id:5,name:'Hitbox ESP',desc:'Extra visibility'}]
+    reachFlags:[
+      {id:1,name:'Reach Flag Basic',desc:'Standard reach'},
+      {id:2,name:'Reach Flag Advanced',desc:'Improved reach'},
+      {id:3,name:'Reach Flag Premium',desc:'Maximum reach'}
+    ],
+    delayFlags:[
+      {id:4,name:'Delay Flag Basic',desc:'Standard delay'},
+      {id:5,name:'Delay Flag Advanced',desc:'Reduced delay'},
+      {id:6,name:'Delay Flag Premium',desc:'Minimal delay'}
+    ],
+    specialFlags:[
+      {id:7,name:'CokeTF Flag',desc:'Special limited time'}
+    ],
+    pingFlags:[
+      {id:8,name:'Ping Flag Basic',desc:'Standard ping'},
+      {id:9,name:'Ping Flag Advanced',desc:'Improved ping'},
+      {id:10,name:'Ping Flag Premium',desc:'Best ping'}
+    ],
+    miscFlags:[
+      {id:11,name:'Misc Basic',desc:'Basic misc tools'},
+      {id:12,name:'Misc Advanced',desc:'Advanced misc tools'},
+      {id:13,name:'Misc Premium',desc:'Premium misc tools'}
+    ]
   }
 
   const cartModal = document.getElementById('cartModal')
@@ -117,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container=document.getElementById(catId)
     CATEGORIES[catId].forEach(item=>{
       const div=document.createElement('div'); div.className='card'
-      div.innerHTML=`<div class="flag">${item.name.split(' ')[0]}</div>
+      div.innerHTML=`<div class="flag">Flag</div>
         <div class="name">${item.name}</div>
         <div class="small">${item.desc}</div>
         <button onclick="addToCart(${item.id},'${item.name}')">Add</button>`
