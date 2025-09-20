@@ -20,12 +20,10 @@ header{padding:30px;text-align:center;}
 button{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:#022;cursor:pointer;transition:transform 0.1s;margin-top:5px;width:100%;}
 button:hover{transform:scale(1.05);}
 .topbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:20px;}
-.cart-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:10px;color:var(--muted);}
-.cart-count{background:#ef4444;color:white;padding:2px 6px;border-radius:999px;margin-left:8px;font-weight:700;}
-.modal{position:fixed;right:50%;top:50%;transform:translate(50%,-50%);width:350px;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.8);display:none;z-index:9999;}
+.modal{position:fixed;right:50%;top:50%;transform:translate(50%,-50%);width:350px;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.8);display:none;z-index:9999;text-align:center;}
 .modal h4{margin:0 0 10px;text-align:center;}
-.cart-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03);}
-.small{font-size:13px;color:var(--muted);}
+.modal a{color:var(--accent);text-decoration:none;font-weight:700;}
+.modal button{margin-top:15px;}
 footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
 .arrow{font-weight:bold;}
 </style>
@@ -33,14 +31,9 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
 <body>
 <header>
   <div class="brand">Rays Flags — Fast Roblox Flags</div>
-  <div class="subtitle">Fast flags for Roblox. Prices discussed in Discord DM. Trusted seller.</div>
+  <div class="subtitle">Fast flags for Roblox. Contact via Discord DM to buy. Trusted seller.</div>
 </header>
 <main class="wrap">
-  <div class="topbar">
-    <div class="small">Custom orders via Discord: <strong>@rattyray1</strong></div>
-    <div><button class="cart-btn" id="openCart">Cart <span id="count" class="cart-count">0</span></button></div>
-  </div>
-
   <h2 class="category-toggle">Reach Flags <span class="arrow">▾</span></h2>
   <div class="collapsible" id="reachFlags"></div>
 
@@ -57,11 +50,12 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
   <div class="collapsible" id="miscFlags"></div>
 </main>
 
-<div id="cartModal" class="modal">
-  <h4>Your Cart</h4>
-  <div id="cartItems"></div>
-  <button id="checkoutBtn">Checkout</button>
-  <button id="closeCart">Close</button>
+<!-- Modal -->
+<div id="contactModal" class="modal">
+  <h4>To Buy This Flag</h4>
+  <p>Contact <strong>@rattyray1</strong> on Discord</p>
+  <p>Server Invite: <a href="https://discord.gg/W8w94pUtgt" target="_blank">https://discord.gg/W8w94pUtgt</a></p>
+  <button id="closeModal">Close</button>
 </div>
 
 <footer>
@@ -96,40 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   }
 
-  const cartModal = document.getElementById('cartModal')
-  const cartItemsEl = document.getElementById('cartItems')
-  const countEl = document.getElementById('count')
+  const modal=document.getElementById('contactModal')
+  const closeModal=document.getElementById('closeModal')
 
-  function getCart(){ return JSON.parse(localStorage.getItem('rays_cart')||'{}') }
-  function saveCart(c){ localStorage.setItem('rays_cart',JSON.stringify(c)); updateCount() }
-  function addToCart(id,name){ 
-    const c=getCart(); c[id]=(c[id]||0)+1; saveCart(c)
-    alert(`Added "${name}" to cart. Checkout to DM Ray for price.`)
-  }
-  function updateCount(){ const c=getCart(); countEl.textContent = Object.values(c).reduce((a,b)=>a+b,0) }
-  function renderCart(){
-    const c=getCart(); cartItemsEl.innerHTML=''; 
-    Object.keys(c).forEach(id=>{
-      const item = Object.values(CATEGORIES).flat().find(x=>x.id==id)
-      const qty=c[id]
-      const div=document.createElement('div'); div.className='cart-item'
-      div.innerHTML=`<div>${item.name} x${qty}</div>`
-      cartItemsEl.appendChild(div)
-    })
-  }
+  function openModal(){ modal.style.display='block' }
+  function close(){ modal.style.display='none' }
 
-  function openCart(){ renderCart(); cartModal.style.display='block' }
-  function closeCart(){ cartModal.style.display='none' }
-  function checkout(){
-    const c=getCart(); 
-    if(Object.keys(c).length==0){ alert('Cart empty'); return }
-    const summary = Object.keys(c).map(id=>{ const p=Object.values(CATEGORIES).flat().find(x=>x.id==id); return `${p.name} x${c[id]}` }).join('\n')
-    navigator.clipboard.writeText(`Order:\n${summary}\nDiscord: @rattyray1\nServer: https://discord.gg/W8w94pUtgt`)
-    window.open('https://discord.gg/W8w94pUtgt','_blank')
-    alert('Order copied! Message @rattyray1 on Discord to complete purchase.')
-    localStorage.removeItem('rays_cart'); updateCount(); closeCart()
-  }
+  closeModal.addEventListener('click',close)
 
+  // Generate cards
   Object.keys(CATEGORIES).forEach(catId=>{
     const container=document.getElementById(catId)
     CATEGORIES[catId].forEach(item=>{
@@ -137,29 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
       div.innerHTML=`<div class="flag"></div>
         <div class="name">${item.name}</div>
         <div class="small">${item.desc}</div>`
-      const btn=document.createElement('button'); btn.textContent='Add'
-      btn.addEventListener('click',()=>addToCart(item.id,item.name))
+      const btn=document.createElement('button'); btn.textContent='Buy Now'
+      btn.addEventListener('click',openModal)
       div.appendChild(btn)
       container.appendChild(div)
     })
   })
 
+  // Collapsible
   document.querySelectorAll('.category-toggle').forEach(header=>{
     header.addEventListener('click', ()=>{
       const grid = header.nextElementSibling
-      if(grid.style.display==='none' || grid.style.display===''){
-        grid.style.display='grid'
-        header.querySelector('.arrow').textContent='▾'
-      }else{
-        grid.style.display='none'
-        header.querySelector('.arrow').textContent='▸'
-      }
+      if(grid.style.display==='none' || grid.style.display===''){ grid.style.display='grid'; header.querySelector('.arrow').textContent='▾' }
+      else{ grid.style.display='none'; header.querySelector('.arrow').textContent='▸' }
     })
   })
-
-  document.getElementById('openCart').addEventListener('click',openCart)
-  document.getElementById('closeCart').addEventListener('click',closeCart)
-  document.getElementById('checkoutBtn').addEventListener('click',checkout)
-  updateCount()
 })
 </script>
