@@ -15,6 +15,7 @@ header{padding:30px;text-align:center;}
 .collapsible{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-top:10px;}
 .card{background:linear-gradient(135deg,#0b1220,#0f172a);padding:15px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.6);transition:transform 0.3s,box-shadow 0.3s;text-align:center;}
 .card:hover{transform:translateY(-5px);box-shadow:0 12px 25px rgba(0,0,0,0.8);}
+.pass-icon{font-weight:700;text-transform:uppercase;letter-spacing:1px;background:linear-gradient(45deg,#0ea5a4,#14b8a6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;font-size:14px;}
 .flag{height:100px;border-radius:8px;background:linear-gradient(45deg,#0ea5a4,#14b8a6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:white;margin-bottom:10px;}
 .name{margin:10px 0;font-size:16px;}
 button{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:#022;cursor:pointer;transition:transform 0.1s;margin-top:5px;width:100%;}
@@ -66,44 +67,43 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:13px;margin-t
 document.addEventListener('DOMContentLoaded', () => {
   const CATEGORIES = {
     reachFlags:[
-      {id:1,name:'Reach Flag Basic',desc:'Standard fast flag'},
-      {id:2,name:'Reach Flag Advanced',desc:'Improved fast flag'},
-      {id:3,name:'Reach Flag Premium',desc:'Maximum fast flag'}
+      {id:1,name:'Reach Flag Basic',desc:'Standard fast flag',pass:'BASIC'},
+      {id:2,name:'Reach Flag Advanced',desc:'Improved fast flag',pass:'ADVANCED'},
+      {id:3,name:'Reach Flag Premium',desc:'Maximum fast flag',pass:'PREMIUM'}
     ],
     delayFlags:[
-      {id:4,name:'Delay Flag Basic',desc:'Standard fast flag'},
-      {id:5,name:'Delay Flag Advanced',desc:'Improved fast flag'},
-      {id:6,name:'Delay Flag Premium',desc:'Maximum fast flag'}
+      {id:4,name:'Delay Flag Basic',desc:'Standard fast flag',pass:'BASIC'},
+      {id:5,name:'Delay Flag Advanced',desc:'Improved fast flag',pass:'ADVANCED'},
+      {id:6,name:'Delay Flag Premium',desc:'Maximum fast flag',pass:'PREMIUM'}
     ],
     specialFlags:[
-      {id:7,name:'CokeTF Flag',desc:'Special limited time fast flag'}
+      {id:7,name:'CokeTF Flag',desc:'Special limited time fast flag',pass:'LIMITED'}
     ],
     pingFlags:[
-      {id:8,name:'Ping Flag Basic',desc:'Standard fast flag'},
-      {id:9,name:'Ping Flag Advanced',desc:'Improved fast flag'},
-      {id:10,name:'Ping Flag Premium',desc:'Maximum fast flag'}
+      {id:8,name:'Ping Flag Basic',desc:'Standard fast flag',pass:'BASIC'},
+      {id:9,name:'Ping Flag Advanced',desc:'Improved fast flag',pass:'ADVANCED'},
+      {id:10,name:'Ping Flag Premium',desc:'Maximum fast flag',pass:'PREMIUM'}
     ],
     miscFlags:[
-      {id:11,name:'Misc Basic',desc:'Basic fast flag'},
-      {id:12,name:'Misc Advanced',desc:'Advanced fast flag'},
-      {id:13,name:'Misc Premium',desc:'Premium fast flag'}
+      {id:11,name:'Misc Basic',desc:'Basic fast flag',pass:'BASIC'},
+      {id:12,name:'Misc Advanced',desc:'Advanced fast flag',pass:'ADVANCED'},
+      {id:13,name:'Misc Premium',desc:'Premium fast flag',pass:'PREMIUM'}
     ]
   }
 
   const modal=document.getElementById('contactModal')
   const closeModal=document.getElementById('closeModal')
-
   function openModal(){ modal.style.display='block' }
   function close(){ modal.style.display='none' }
-
   closeModal.addEventListener('click',close)
 
-  // Generate cards
+  // Generate cards with pass icons
   Object.keys(CATEGORIES).forEach(catId=>{
     const container=document.getElementById(catId)
     CATEGORIES[catId].forEach(item=>{
       const div=document.createElement('div'); div.className='card'
-      div.innerHTML=`<div class="flag"></div>
+      div.innerHTML=`<div class="pass-icon">${item.pass}</div>
+        <div class="flag"></div>
         <div class="name">${item.name}</div>
         <div class="small">${item.desc}</div>`
       const btn=document.createElement('button'); btn.textContent='Buy Now'
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
-  // Collapsible
+  // Collapsible categories
   document.querySelectorAll('.category-toggle').forEach(header=>{
     header.addEventListener('click', ()=>{
       const grid = header.nextElementSibling
